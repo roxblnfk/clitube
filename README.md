@@ -7,15 +7,11 @@
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
 
-
 ## Requirements
 
 Make sure that your server is configured with following PHP version and extensions:
 
 - PHP 8.1+
-- Spiral framework 3.0+
-
-
 
 ## Installation
 
@@ -25,40 +21,11 @@ You can install the package via composer:
 composer require roxblnfk/clitube
 ```
 
-After package install you need to register bootloader from the package.
-
-```php
-protected const LOAD = [
-    // ...
-    \Roxblnfk\CliTube\Bootloader\CliTubeBootloader::class,
-];
-```
-
-> Note: if you are using [`spiral-packages/discoverer`](https://github.com/spiral-packages/discoverer),
-> you don't need to register bootloader by yourself.
-
 ## Testing
 
 ```bash
 composer test
 ```
-
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](.github/CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
-
-## Credits
-
-- [roxblnfk](https://github.com/roxblnfk)
-- [All Contributors](../../contributors)
 
 ## License
 
