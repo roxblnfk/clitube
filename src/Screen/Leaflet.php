@@ -6,25 +6,23 @@ namespace Roxblnfk\CliTube\Screen;
 
 use Roxblnfk\CliTube\Command\User\Noop;
 use Roxblnfk\CliTube\Contract\Command\UserCommand;
-use Roxblnfk\CliTube\Contract\CommandComponent;
 use Roxblnfk\CliTube\Contract\InteractiveComponent;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class Leaflet extends AbstractScreen implements CommandComponent, InteractiveComponent
+final class Leaflet extends AbstractScreen implements InteractiveComponent
 {
     public bool $breakLines = true;
 
     /** @var array{0: int, 1: int, 2: int, 3: int} [Line, Column, end line, end column] in the buffer */
     private array $cursor = [0, 0, 0, 0];
+    private ?string $pageStatus = null;
+
+    private ?array $frameCache = null;
+    private ?\Closure $pageStatusCallable = null;
 
     public function __construct(OutputInterface $output)
     {
         parent::__construct($output);
-    }
-
-    public function commandList(): iterable
-    {
-        return [Noop::class => $this->goToNext(...)];
     }
 
     public function interact(UserCommand $command): void
@@ -33,6 +31,14 @@ final class Leaflet extends AbstractScreen implements CommandComponent, Interact
             $this->goToNext();
         }
         $this->redraw(true);
+    }
+
+    /**
+     * @param null|callable(self $sreen):string $callable
+     */
+    public function pageStatusCallable(?callable $callable): void
+    {
+        $this->pageStatusCallable = $callable !== null ? $callable(...)->bindTo($this) : null;
     }
 
     public function goToNext(): void
@@ -45,10 +51,21 @@ final class Leaflet extends AbstractScreen implements CommandComponent, Interact
         } else {
             $this->cursor = [\min(\count($this->buffer), $this->cursor[0] + 1), 0];
         }
+        $this->frameCache = null;
+        $this->prepareFrame();
+    }
+
+    public function isEnd(): bool
+    {
+        return \array_key_last($this->buffer) <= $this->cursor[2]
+            && \strlen($this->buffer[\array_key_last($this->buffer)]) >= $this->cursor[3];
     }
 
     protected function prepareFrame(): array
     {
+        if ($this->frameCache !== null) {
+            return $this->frameCache;
+        }
         $maxLength = $this->getWindowWidth();
         $maxHeight = \max(1, $this->getWindowHeight() - 1);
         $result = [];
@@ -69,24 +86,16 @@ final class Leaflet extends AbstractScreen implements CommandComponent, Interact
             $this->cursor[2] = $line;
             $this->cursor[3] = $column;
         }
-        if ($this->getWindowHeight() > \count($result)) {
-            $result[] = $this->renderProgress();
+        // Render Status
+        $this->pageStatus = $this->pageStatusCallable === null ? null : ($this->pageStatusCallable)($this);
+        if ($this->pageStatus === null) {
+            ++$maxHeight;
+        }
+        $result = \array_merge($result, \array_fill(0, $maxHeight - \count($result), ''));
+        if ($this->pageStatus !== null && $this->getWindowHeight() > \count($result)) {
+            $result[] = \mb_substr($this->pageStatus, 0, $maxLength);
         }
 
         return $result;
-    }
-
-    public function isEnd(): bool
-    {
-        return \array_key_last($this->buffer) <= $this->cursor[2]
-            && \strlen($this->buffer[\array_key_last($this->buffer)]) >= $this->cursor[3];
-    }
-
-    protected function renderProgress(): string
-    {
-        return $this->wrapColor(
-            $this->isEnd() ? '-- End --' : '-- Press Enter to continue --',
-            90
-        );
     }
 }

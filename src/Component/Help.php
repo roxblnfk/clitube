@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Roxblnfk\CliTube\Component;
 
 use Roxblnfk\CliTube\Command\Core\CloseComponent;
+use Roxblnfk\CliTube\Command\User\Noop;
 use Roxblnfk\CliTube\Command\User\Quit;
 use Roxblnfk\CliTube\Contract\Command\UserCommand;
 use Roxblnfk\CliTube\Contract\CommandComponent;
@@ -19,6 +20,17 @@ class Help implements CommandComponent, InteractiveComponent
         private readonly EventDispatcher $eventDispatcher,
     ) {
         $this->generateText();
+        $this->screen->pageStatusCallable(fn (Leaflet $screen) =>
+            \sprintf(
+                "\033[90m%s\033[0m",
+                \rtrim(\str_pad(
+                    $screen->isEnd() ? '-- End --' : "-- Press \033[06m Enter \033[0m\033[90m to continue --",
+                    $screen->getWindowWidth(),
+                    ' ',
+                    \STR_PAD_BOTH,
+                ), ' ')
+            )
+        );
         $this->screen->redraw();
     }
 
@@ -35,8 +47,8 @@ class Help implements CommandComponent, InteractiveComponent
     {
         yield from [
             Quit::class => $this->exit(...),
+            Noop::class => $this->screen->goToNext(...),
         ];
-        yield from $this->screen->commandList();
     }
 
     private function generateText()
