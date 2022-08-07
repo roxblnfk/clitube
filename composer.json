@@ -1,40 +1,40 @@
 {
-  "name": ":vendor_slug/:package_slug",
-  "description": ":package_description",
+  "name": "roxblnfk/clitube",
+  "description": "CliTube is data viewer in console",
   "keywords": [
-    ":vendor_name",
+    "roxblnfk",
     "spiral",
-    ":package_slug"
+    "clitube"
   ],
-  "homepage": "https://github.com/:vendor_slug/:package_slug",
+  "homepage": "https://github.com/roxblnfk/clitube",
   "license": "MIT",
   "authors": [
     {
-      "name": ":author_name",
-      "email": "author@domain.com",
+      "name": "roxblnfk",
+      "email": "roxblnfk@ya.ru",
       "role": "Developer"
     }
   ],
   "require": {
     "php": "^8.1",
-    "spiral/boot": "^3.0",
-    "spiral/console": "^3.0"
+    "psr/event-dispatcher": "^1.0",
+    "symfony/console": ">=4",
+    "yiisoft/injector": "^1.1"
   },
   "require-dev": {
     "mockery/mockery": "^1.5",
     "phpunit/phpunit": "^9.5",
-    "spiral/testing": "^2.0",
     "vimeo/psalm": "^4.9"
   },
   "autoload": {
     "psr-4": {
-      "VendorName\\Skeleton\\": "src"
+      "Roxblnfk\\CliTube\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "VendorName\\Skeleton\\Tests\\App\\": "tests/app",
-      "VendorName\\Skeleton\\Tests\\": "tests/src"
+      "Roxblnfk\\CliTube\\Tests\\App\\": "tests/app",
+      "Roxblnfk\\CliTube\\Tests\\": "tests/src"
     }
   },
   "scripts": {
@@ -47,7 +47,7 @@
   "extra": {
     "spiral": {
       "bootloaders": [
-        "VendorName\\Skeleton\\Bootloader\\SkeletonBootloader"
+        "Roxblnfk\\CliTube\\Bootloader\\CliTubeBootloader"
       ]
     }
   },
