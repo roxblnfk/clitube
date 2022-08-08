@@ -14,9 +14,9 @@ final class Quit implements UserCommand
     public static function createFromInput(string $input): ?UserCommand
     {
         if (\in_array(\strtolower($input), ['exit', ':q'])) {
-            return null;
+            return new self();
         }
 
-        return new self();
+        return null;
     }
 }

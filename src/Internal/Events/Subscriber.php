@@ -11,7 +11,7 @@ use ReflectionFunction;
 use ReflectionNamedType;
 use ReflectionUnionType;
 use Roxblnfk\CliTube\Command\Core\CloseComponent;
-use Roxblnfk\CliTube\Contract\CommandComponent;
+use Roxblnfk\CliTube\Contract\EventListener;
 use Roxblnfk\CliTube\Contract\Component;
 use Roxblnfk\CliTube\Contract\EventSubscriber;
 use SplObjectStorage;
@@ -70,8 +70,8 @@ final class Subscriber implements EventSubscriber
 
     public function subscribeComponent(Component $component): void
     {
-        if ($component instanceof CommandComponent) {
-            foreach ($component->commandList() as $commandClass => $listener) {
+        if ($component instanceof EventListener) {
+            foreach ($component->getListeners() as $commandClass => $listener) {
                 $this->subscribeCallable(
                     $listener,
                     EventSubscriber::PREPEND,

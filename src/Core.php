@@ -9,7 +9,7 @@ use Psr\EventDispatcher\ListenerProviderInterface;
 use Roxblnfk\CliTube\Command\Core\CloseComponent;
 use Roxblnfk\CliTube\Command\User\Noop;
 use Roxblnfk\CliTube\Command\User\Quit;
-use Roxblnfk\CliTube\Contract\CommandComponent;
+use Roxblnfk\CliTube\Contract\EventListener;
 use Roxblnfk\CliTube\Contract\Component;
 use Roxblnfk\CliTube\Contract\EventSubscriber;
 use Roxblnfk\CliTube\Contract\InteractiveComponent;
@@ -17,11 +17,11 @@ use Roxblnfk\CliTube\Internal\Container;
 use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
 use Roxblnfk\CliTube\Internal\Events\ListenerProvider;
 use Roxblnfk\CliTube\Internal\Events\Subscriber;
+use Roxblnfk\CliTube\Internal\UserCommandFactory;
 use Roxblnfk\CliTube\Screen\Paginator;
 use Symfony\Component\Console\Output\OutputInterface;
-use Yiisoft\Injector\Injector;
 
-final class Core implements CommandComponent
+final class Core implements EventListener
 {
     /**
      * @var array<int, Component>
@@ -48,8 +48,8 @@ final class Core implements CommandComponent
         $this->container->set(EventDispatcherInterface::class, $this->eventDispatcher);
         // Subscribe itself
         foreach ([
-            CloseComponent::class => $this->terminateComponent(...),
-        ] + $this->commandList() as $commandClass => $listener) {
+            CloseComponent::class => fn (CloseComponent $e) => $this->terminateComponent($e->component),
+        ] + $this->getListeners() as $commandClass => $listener) {
             $this->subscriber->subscribeCallable(
                 $listener,
                 EventSubscriber::PREPEND,
@@ -64,19 +64,21 @@ final class Core implements CommandComponent
             return;
         }
         $this->running = true;
-        $inputStream = STDIN;
+        $inputStream = STDIN; # todo
         try {
             while ($this->running && $this->components !== []) {
                 $component = \reset($this->components);
 
                 if ($component instanceof InteractiveComponent) {
+                    $commandFactory = $this->container->get(UserCommandFactory::class);
                     while (\reset($this->components) === $component) {
                         $input = \fgets($inputStream);
                         if ($input === false) {
                             break;
                         }
-                        $input = \trim($input);
-                        $component->interact(new Noop());
+
+                        $command = $commandFactory->create($component->getUserCommands(), $input);
+                        $component->interact($command);
                     }
                     continue;
                 }
@@ -88,7 +90,7 @@ final class Core implements CommandComponent
         }
     }
 
-    public function commandList(): array
+    public function getListeners(): array
     {
         return [
             Quit::class => $this->exit(...),

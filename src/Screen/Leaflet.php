@@ -4,12 +4,9 @@ declare(strict_types=1);
 
 namespace Roxblnfk\CliTube\Screen;
 
-use Roxblnfk\CliTube\Command\User\Noop;
-use Roxblnfk\CliTube\Contract\Command\UserCommand;
-use Roxblnfk\CliTube\Contract\InteractiveComponent;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class Leaflet extends AbstractScreen implements InteractiveComponent
+final class Leaflet extends AbstractScreen
 {
     public bool $breakLines = true;
 
@@ -25,12 +22,13 @@ final class Leaflet extends AbstractScreen implements InteractiveComponent
         parent::__construct($output);
     }
 
-    public function interact(UserCommand $command): void
+    public function clear(bool $cleanInputLine = true): void
     {
-        if ($command instanceof Noop) {
-            $this->goToNext();
+        if (!$this->overwrite && !$this->firstDraw) {
+            $this->removeLines(1, false);
+        } else {
+            parent::clear($cleanInputLine);
         }
-        $this->redraw(true);
     }
 
     /**
@@ -91,7 +89,10 @@ final class Leaflet extends AbstractScreen implements InteractiveComponent
         if ($this->pageStatus === null) {
             ++$maxHeight;
         }
-        $result = \array_merge($result, \array_fill(0, $maxHeight - \count($result), ''));
+        // Don't render blank lines after the document
+        if ($this->overwrite) {
+            $result = \array_merge($result, \array_fill(0, $maxHeight - \count($result), ''));
+        }
         if ($this->pageStatus !== null && $this->getWindowHeight() > \count($result)) {
             $result[] = \mb_substr($this->pageStatus, 0, $maxLength);
         }

@@ -9,4 +9,6 @@ use Roxblnfk\CliTube\Contract\Command\UserCommand;
 interface InteractiveComponent extends Component
 {
     public function interact(UserCommand $command): void;
+
+    public function getUserCommands(): iterable;
 }

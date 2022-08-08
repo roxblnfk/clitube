@@ -9,16 +9,16 @@ use Symfony\Component\Console\Terminal;
 
 class AbstractScreen
 {
-    public array $buffer = [''];
-
-    private Terminal $terminal;
-
     /**
      * Overwrite last output
      */
-    private bool $overwrite = true;
+    public bool $overwrite = true;
 
-    private bool $firstDraw = true;
+    protected array $buffer = [''];
+
+    protected Terminal $terminal;
+
+    protected bool $firstDraw = true;
     protected int $redrawLines = 0;
 
     public function __construct(
@@ -45,7 +45,7 @@ class AbstractScreen
 
     public function redraw(bool $cleanInputLine = false): void
     {
-        $this->clear();
+        $this->clear($cleanInputLine);
         $frame = $this->prepareFrame();
         $this->firstDraw = false;
         $this->redrawLines = \count($frame);
@@ -74,19 +74,12 @@ class AbstractScreen
         }
     }
 
-    protected function wrapColor(string|int $str, int|string $code): string
-    {
-        return "\033[{$code}m$str\033[0m";
-    }
-
     public function removeLines(int $lines = 1, bool $cleanInputLine = true): void
     {
-        if ($lines <= 0) {
+        if ($lines < 0) {
             return;
         }
-        // if ($this->output instanceof ConsoleSectionOutput) {
-        //     $this->output->clear($lines);
-        // } else {
+        // $this->output->write(\str_repeat("\x1B[1A\x1B[2K", $lines), options: OutputInterface::OUTPUT_RAW);
         $cursor = new \Symfony\Component\Console\Cursor($this->output);
         if ($cleanInputLine) {
             $cursor->clearLine();
