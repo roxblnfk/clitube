@@ -13,7 +13,7 @@ use Roxblnfk\CliTube\Contract\InteractiveComponent;
 use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
 use Roxblnfk\CliTube\Screen\Leaflet;
 
-class Help implements InteractiveComponent
+class Scroll implements InteractiveComponent
 {
     public function __construct(
         private readonly Leaflet $screen,
@@ -80,7 +80,7 @@ class Help implements InteractiveComponent
 
     private function configureScreen()
     {
-        $this->screen->overwrite = false;
+        // $this->screen->overwrite = false;
         $this->screen->pageStatusCallable(fn (Leaflet $screen) =>
             \sprintf(
                 "\033[90m%s\033[0m",

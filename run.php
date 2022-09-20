@@ -9,7 +9,8 @@ use Symfony\Component\Console\SingleCommandApplication;
 (new SingleCommandApplication())
     ->setCode(function (InputInterface $input, OutputInterface $output) {
         $core = new \Roxblnfk\CliTube\Core($output);
-        $core->createComponent(\Roxblnfk\CliTube\Component\Help::class);
+        // $core->createComponent(\Roxblnfk\CliTube\Component\Scroll::class);
+        $core->createComponent(\Roxblnfk\CliTube\Component\Paginator::class);
         $core->run();
     })
     ->run();
