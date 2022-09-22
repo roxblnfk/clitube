@@ -11,10 +11,9 @@ use Roxblnfk\CliTube\Command\User\Noop;
 use Roxblnfk\CliTube\Command\User\Quit;
 use Roxblnfk\CliTube\Contract\Command\UserCommand;
 use Roxblnfk\CliTube\Contract\InteractiveComponent;
-use Roxblnfk\CliTube\Data\PaginatorInterface;
+use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
 use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
 use Roxblnfk\CliTube\Screen\Paginator as PaginatorScreen;
-use Symfony\Component\Console\Output\OutputInterface;
 use Traversable;
 
 class Paginator implements InteractiveComponent
@@ -85,7 +84,7 @@ class Paginator implements InteractiveComponent
                         "n-put-$this->page-$i",
                         "n-kez-$this->page-$i",
                         "n-dec-$this->page-$i",
-                        "n-nlp-$this->page-$i",
+                        "FFFFOOOO-$this->page-$i",
                         "n-ced-$this->page-$i",
                         "n-cde-$this->page-$i",
                         "n-mew-$this->page-$i",
@@ -102,7 +101,7 @@ class Paginator implements InteractiveComponent
                 }
             }
 
-            public function setLimit(int $limit): static
+            public function withLimit(int $limit): static
             {
                 $this->limit = $limit;
                 return $this;
@@ -119,8 +118,12 @@ class Paginator implements InteractiveComponent
                 --$this->page;
                 return $this;
             }
+            public function count(): int
+            {
+                return $this->limit;
+            }
         };
-        $this->paginator = $this->paginator->setLimit($this->screen->getBodySize());
+        $this->paginator = $this->paginator->withLimit($this->screen->getBodySize());
     }
 
     private function exit(?Quit $event = null): void

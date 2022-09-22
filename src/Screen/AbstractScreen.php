@@ -18,11 +18,14 @@ class AbstractScreen
 
     protected Terminal $terminal;
 
+    protected ?string $pageStatus = '';
+    protected ?string $pageInput = '';
+
     protected bool $firstDraw = true;
     protected int $redrawLines = 0;
 
     public function __construct(
-        private readonly OutputInterface $output,
+        protected readonly OutputInterface $output,
     ) {
         $this->terminal = new Terminal();
 
@@ -48,7 +51,7 @@ class AbstractScreen
         $this->clear($cleanInputLine);
         $frame = $this->prepareFrame();
         $this->firstDraw = false;
-        $this->redrawLines = \count($frame);
+        $this->redrawLines = \count($frame) + 1;
 
         $this->drawFrame($frame);
     }
@@ -66,12 +69,13 @@ class AbstractScreen
      */
     protected function drawFrame(array $frame): void
     {
-        $i = 0;
-        foreach ($frame as $line) {
-            ++$i;
-            $isLast = $i === \count($frame);
-            $this->output->write($line, !$isLast, OutputInterface::OUTPUT_RAW);
-        }
+        // $i = 0;
+        $frame[] = $this->pageInput;
+        $this->output->write($frame, true, OutputInterface::OUTPUT_RAW);
+        $this->output->write($this->pageStatus, false, OutputInterface::OUTPUT_RAW);
+        // Move cursor to Input
+        $this->output->write(sprintf("\x1b[%dA", 1));
+        $this->output->write(sprintf("\x1b[%dG", \strlen($this->pageInput) + 1));
     }
 
     public function removeLines(int $lines = 1, bool $cleanInputLine = true): void
@@ -139,5 +143,23 @@ class AbstractScreen
         if ($newline) {
             $this->buffer[] = '';
         }
+    }
+
+    /**
+     * Calc visible symbols ignoring markup.
+     * todo
+     */
+    protected function strlen(string $string): int
+    {
+        return \mb_strlen($string);
+    }
+
+    /**
+     * Cut visible symbols with markup.
+     * todo
+     */
+    protected function substr(string $string, int $start, int $length = null): string
+    {
+        return \mb_substr($string, $start, $length);
     }
 }

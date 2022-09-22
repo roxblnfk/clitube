@@ -12,7 +12,6 @@ final class Leaflet extends AbstractScreen
 
     /** @var array{0: int, 1: int, 2: int, 3: int} [Line, Column, end line, end column] in the buffer */
     private array $cursor = [0, 0, 0, 0];
-    private ?string $pageStatus = null;
 
     private ?array $frameCache = null;
     private ?\Closure $pageStatusCallable = null;
@@ -65,7 +64,7 @@ final class Leaflet extends AbstractScreen
             return $this->frameCache;
         }
         $maxLength = $this->getWindowWidth();
-        $maxHeight = \max(1, $this->getWindowHeight() - 1);
+        $maxHeight = \max(1, $this->getWindowHeight() - 2);
         $result = [];
         [$line, $column] = $this->cursor;
         while (\count($result) < $maxHeight && isset($this->buffer[$line])) {
@@ -86,15 +85,12 @@ final class Leaflet extends AbstractScreen
         }
         // Render Status
         $this->pageStatus = $this->pageStatusCallable === null ? null : ($this->pageStatusCallable)($this);
-        if ($this->pageStatus === null) {
-            ++$maxHeight;
-        }
+        // if ($this->pageStatus === null) {
+        //     ++$maxHeight;
+        // }
         // Don't render blank lines after the document
         if ($this->overwrite) {
             $result = \array_merge($result, \array_fill(0, $maxHeight - \count($result), ''));
-        }
-        if ($this->pageStatus !== null && $this->getWindowHeight() > \count($result)) {
-            $result[] = \mb_substr($this->pageStatus, 0, $maxLength);
         }
 
         return $result;

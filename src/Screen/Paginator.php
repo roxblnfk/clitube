@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Roxblnfk\CliTube\Screen;
 
-use Roxblnfk\CliTube\Data\PaginatorInterface;
+use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
 
@@ -15,6 +15,7 @@ final class Paginator extends AbstractScreen
     /** @var array<int, string> */
     private array $tableLines = [];
     private int $lineOffset = 0;
+    private ?\Closure $pageStatusCallable = null;
 
     /**
      * Get possible limit value for the paginator based on screen size and rendering template.
@@ -30,7 +31,7 @@ final class Paginator extends AbstractScreen
     {
         // Set new Offset
         $screenLength = $this->getWindowWidth();
-        $longestLine = \max(\array_map('mb_strlen', $this->tableLines));
+        $longestLine = \max(\array_map($this->strlen(...), $this->tableLines));
         $maxOffset = $longestLine - $screenLength;
         if ($maxOffset <= $this->lineOffset) {
             $this->lineOffset = 0;
@@ -50,6 +51,14 @@ final class Paginator extends AbstractScreen
         $this->prepareFrame();
     }
 
+    /**
+     * @param null|callable(self $sreen):string $callable
+     */
+    public function pageStatusCallable(?callable $callable): void
+    {
+        $this->pageStatusCallable = $callable !== null ? $callable(...)->bindTo($this) : null;
+    }
+
     protected function prepareFrame(): array
     {
         if ($this->frameCache !== null) {
@@ -60,28 +69,22 @@ final class Paginator extends AbstractScreen
         $result = [];
         // [$line, $column] = $this->cursor;
         foreach ($this->tableLines as $line) {
-            $result[] = \mb_substr($line, $this->lineOffset, $maxLength);
+            $result[] = $this->substr($line, $this->lineOffset, $maxLength);
         }
 
-        // Render Status
-        // $this->pageStatus = $this->pageStatusCallable === null ? null : ($this->pageStatusCallable)($this);
-        // if ($this->pageStatus === null) {
-        //     ++$maxHeight;
-        // }
-        // Don't render blank lines after the document
-        // if ($this->overwrite) {
-        //     $result = \array_merge($result, \array_fill(0, $maxHeight - \count($result), ''));
-        // }
-        // if ($this->pageStatus !== null && $this->getWindowHeight() > \count($result)) {
-        //     $result[] = \mb_substr($this->pageStatus, 0, $maxLength);
-        // }
+        // Render Status and Input
+        $this->pageStatus = (string)($this->pageStatusCallable === null ? null : ($this->pageStatusCallable)($this));
+        $this->pageInput = $this->renderPaginatorBar() . '  ';
+
+        // Render blank lines after the table
+        $result = \array_merge($result, \array_fill(0, $maxHeight - \count($result), ''));
 
         return $result;
     }
 
-    private function renderTable(): string
+    protected function renderTable(): string
     {
-        $output = new BufferedOutput();
+        $output = new BufferedOutput(formatter: $this->output->getFormatter());
         $data = [];
         $headers = null;
         foreach ($this->paginator as $line) {
@@ -94,5 +97,10 @@ final class Paginator extends AbstractScreen
             ->render();
 
         return $output->fetch();
+    }
+
+    protected function renderPaginatorBar(): string
+    {
+        return '1 2 3';
     }
 }

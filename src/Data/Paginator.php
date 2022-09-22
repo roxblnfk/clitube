@@ -4,16 +4,17 @@ declare(strict_types=1);
 
 namespace Roxblnfk\CliTube\Data;
 
+use Countable;
 use IteratorAggregate;
 
-interface PaginatorInterface extends IteratorAggregate
+interface Paginator extends IteratorAggregate, Countable
 {
     /**
      * Set page size.
      *
      * @psalm-immutable
      */
-    public function setLimit(int $limit): static;
+    public function withLimit(int $limit): static;
 
     /**
      * Go to the next page.
