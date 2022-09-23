@@ -7,14 +7,27 @@ namespace Roxblnfk\CliTube\Data;
 use Countable;
 use IteratorAggregate;
 
+/**
+ * @psalm-type TLimit = positive-int
+ * @template-extends IteratorAggregate<array<array-key, scalar>>
+ */
 interface Paginator extends IteratorAggregate, Countable
 {
     /**
      * Set page size.
      *
+     * @param TLimit $limit
+     *
      * @psalm-immutable
      */
     public function withLimit(int $limit): static;
+
+    /**
+     * Get page size.
+     *
+     * @return TLimit
+     */
+    public function getLimit(): int;
 
     /**
      * Go to the next page.

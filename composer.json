@@ -33,8 +33,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Roxblnfk\\CliTube\\Tests\\App\\": "tests/app",
-      "Roxblnfk\\CliTube\\Tests\\": "tests/src"
+      "Roxblnfk\\CliTube\\Tests\\": "tests"
     }
   },
   "scripts": {

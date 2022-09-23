@@ -20,11 +20,11 @@ final class Paginator extends AbstractScreen
     /**
      * Get possible limit value for the paginator based on screen size and rendering template.
      *
-     * @return int Limit value for paginator
+     * @return positive-int Limit value for paginator
      */
     public function getBodySize(): int
     {
-        return $this->getWindowHeight() - 7;
+        return \max(1, $this->getWindowHeight() - 7);
     }
 
     public function showNext(): void
