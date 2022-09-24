@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Roxblnfk\CliTube\Screen;
 
-use Roxblnfk\CliTube\Data\CountablePaginator;
+use Roxblnfk\CliTube\Data\OffsetPaginator;
 use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -25,7 +25,13 @@ final class Paginator extends AbstractScreen
      */
     public function getBodySize(): int
     {
-        return \max(1, $this->getWindowHeight() - 7);
+        /** 6 =
+         * + 1 Header line
+         * + 3 Table borders
+         * + 1 {@see self::$pageInput}
+         * + 1 {@see self::$pageStatus}
+         */
+        return \max(1, $this->getWindowHeight() - 6);
     }
 
     public function showNext(): void
@@ -47,7 +53,7 @@ final class Paginator extends AbstractScreen
     public function setPaginator(PaginatorInterface $paginator): void
     {
         $this->paginator = $paginator;
-        $this->tableLines = \explode("\n", $this->renderTable());
+        $this->tableLines = \array_filter(\explode("\n", $this->renderTable()));
         $this->frameCache = null;
         $this->prepareFrame();
     }
@@ -57,7 +63,9 @@ final class Paginator extends AbstractScreen
      */
     public function pageStatusCallable(?callable $callable): void
     {
-        $this->pageStatusCallable = $callable !== null ? $callable(...)->bindTo($this) : null;
+        $this->pageStatusCallable = $callable !== null
+            ? ($callable(...)->bindTo($this) ?: $callable(...)->bindTo(null))
+            : null;
     }
 
     protected function prepareFrame(): array
@@ -92,24 +100,56 @@ final class Paginator extends AbstractScreen
             $headers ??= \array_keys($line);
             $data[] = $line;
         }
-        (new Table($output))
-            ->setHeaders($headers)
-            ->setRows($data)
-            ->render();
+        if ($data === []) {
+            (new Table($output))
+                ->addRow(['Empty table'])
+                ->render();
+        } else {
+            (new Table($output))
+                ->setHeaders($headers)
+                ->setRows($data)
+                ->render();
+        }
 
         return $output->fetch();
     }
 
     protected function renderPaginatorBar(): string
     {
-        $countAll = $this->paginator instanceof CountablePaginator ? $this->paginator->getCount() : null;
-
-        if ($countAll === null) {
-            return "\033[93m<\033[0m \033[32m?\033[0m \033[93m>\033[0m";
+        if (!$this->paginator instanceof OffsetPaginator) {
+            // Print unlimited pagination bar
+            return \sprintf(
+                '%s %s %s',
+                $this->wrap('<', 93),
+                $this->wrap('-', 32),
+                $this->wrap('>', 93),
+            );
         }
 
-        // Calc pages count and current page number
+        $countAll = $this->paginator->getCount();
+        $offset = $this->paginator->getOffset();
+        $limit = $this->paginator->getLimit();
+        $page = (int)\ceil($offset / $limit) + 1;
+        $maxPage = \max(1, (int)\ceil($countAll / $limit));
 
-        return '1 2 3';
+        $dots = $this->wrap('..', 36);
+        $pages = \array_filter([
+            ...($page <= 4 ? \range(1, $page) : [1, $dots, $page - 1]),
+            $this->wrap($page, 42),
+            ...(($page > $maxPage - 4) ? \range($page, $maxPage) : [$page + 1, $dots, $maxPage]),
+        ], static fn (string|int $num): bool => $num !== $page);
+
+        return \sprintf(
+            "%s %s %s  Total %s",
+            $this->wrap('<< <', $page > 1 ? 32 : 33),
+            \implode(' ', \array_map(fn (string|int $num) => \is_string($num) ? $num :  $this->wrap($num, 32), $pages)),
+            $this->wrap('> >>', $page * $limit <= $countAll ? 32 : 33),
+            $this->wrap($countAll, 36),
+        );
+    }
+
+    private function wrap(string|int $str, int|string $code): string
+    {
+        return "\033[{$code}m$str\033[0m";
     }
 }

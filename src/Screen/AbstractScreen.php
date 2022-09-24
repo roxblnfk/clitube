@@ -147,7 +147,6 @@ class AbstractScreen
 
     /**
      * Calc visible symbols ignoring markup.
-     * todo
      */
     protected function strlen(string $string): int
     {

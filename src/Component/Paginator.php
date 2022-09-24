@@ -12,6 +12,7 @@ use Roxblnfk\CliTube\Command\User\Previous;
 use Roxblnfk\CliTube\Command\User\Quit;
 use Roxblnfk\CliTube\Contract\Command\UserCommand;
 use Roxblnfk\CliTube\Contract\InteractiveComponent;
+use Roxblnfk\CliTube\Data\OffsetPaginator;
 use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
 use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
 use Roxblnfk\CliTube\Screen\Paginator as PaginatorScreen;
@@ -51,7 +52,7 @@ class Paginator implements InteractiveComponent
         return $this;
     }
 
-    private function redraw(bool $onlyInput = false): void
+    protected function redraw(bool $onlyInput = false): void
     {
         $this->screen->setPaginator($this->paginator);
         $this->screen->redraw(true);
@@ -60,7 +61,7 @@ class Paginator implements InteractiveComponent
     /**
      * @return array<class-string<UserCommand>, Closure>
      */
-    private function getCallables(): array
+    protected function getCallables(): array
     {
         return [
             Quit::class => $this->exit(...),
@@ -70,40 +71,42 @@ class Paginator implements InteractiveComponent
         ];
     }
 
-    private function configurePaginator(): void
+    protected function configurePaginator(): void
     {
         $this->paginator = $this->paginator->withLimit($this->screen->getBodySize());
     }
 
-    private function exit(?Quit $event = null): void
+    protected function configureScreen(): void
+    {
+        $tips = [
+            'Press Enter to scroll the content horizontally',
+            'Enter `<` or `>` to change the current page',
+        ];
+        if ($this->paginator instanceof OffsetPaginator) {
+            $tips[] = 'Enter `<<` or `>>` to navigate oin the firs or the last page';
+        }
+        $this->screen->pageStatusCallable(static fn (): string => \sprintf(
+            "\033[90m%s\033[0m",
+            $tips[\array_rand($tips)],
+        ));
+    }
+
+    protected function exit(?Quit $event = null): void
     {
         $this->screen->clear();
         $event?->stopPropagation();
         $this->eventDispatcher->dispatch(new CloseComponent(component: $this));
     }
 
-    private function nextPage(?Next $event = null): void
+    protected function nextPage(?Next $event = null): void
     {
         $this->paginator = $this->paginator->nextPage();
         $this->redraw();
     }
 
-    private function previousPage(?Previous $event = null): void
+    protected function previousPage(?Previous $event = null): void
     {
         $this->paginator = $this->paginator->previousPage();
         $this->redraw();
-    }
-
-    private function configureScreen(): void
-    {
-        // $this->screen->pageStatusCallable(fn (Leaflet $screen) => \sprintf(
-        //     "\033[90m%s\033[0m",
-        //     \rtrim(\str_pad(
-        //         $screen->isEnd() ? '-- End --' : "-- Press \033[06m Enter \033[0m\033[90m to continue --",
-        //         $screen->getWindowWidth(),
-        //         ' ',
-        //         \STR_PAD_BOTH,
-        //     ), ' ')
-        // ));
     }
 }

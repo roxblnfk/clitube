@@ -11,7 +11,8 @@ use Symfony\Component\Console\SingleCommandApplication;
         $core = (new \Roxblnfk\CliTube\Core($output));
         // $core->createComponent(\Roxblnfk\CliTube\Component\Scroll::class);
         $core->createComponent(\Roxblnfk\CliTube\Component\Paginator::class, [
-            new \Roxblnfk\CliTube\Tests\Unit\Stub\Paginator(),
+            // new \Roxblnfk\CliTube\Tests\Unit\Stub\Paginator(),
+            new \Roxblnfk\CliTube\Tests\Unit\Stub\OffsetPaginator(),
         ]);
         $core->run();
     })
