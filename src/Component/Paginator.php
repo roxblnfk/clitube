@@ -18,14 +18,14 @@ use Roxblnfk\CliTube\Screen\Paginator as PaginatorScreen;
 
 class Paginator implements InteractiveComponent
 {
-    private PaginatorInterface $paginator;
 
     public function __construct(
-        readonly private PaginatorScreen $screen,
+        private readonly PaginatorScreen $screen,
         private readonly EventDispatcher $eventDispatcher,
+        private PaginatorInterface $paginator,
     ) {
         $this->configureScreen();
-        $this->generateText();
+        $this->configurePaginator();
         $this->redraw();
     }
 
@@ -43,6 +43,12 @@ class Paginator implements InteractiveComponent
     public function getUserCommands(): iterable
     {
         return \array_keys($this->getCallables());
+    }
+
+    public function setPaginator(PaginatorInterface $paginator): static
+    {
+        $this->paginator = $paginator;
+        return $this;
     }
 
     private function redraw(bool $onlyInput = false): void
@@ -64,9 +70,8 @@ class Paginator implements InteractiveComponent
         ];
     }
 
-    private function generateText(): void
+    private function configurePaginator(): void
     {
-        $this->paginator = new \Roxblnfk\CliTube\Tests\Unit\Stub\Paginator();
         $this->paginator = $this->paginator->withLimit($this->screen->getBodySize());
     }
 

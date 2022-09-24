@@ -98,7 +98,11 @@ final class Core implements EventListener
     }
 
     /**
-     * @param class-string<Component> $component
+     * @template TComponent of Component
+     *
+     * @param class-string<TComponent> $component
+     *
+     * @return TComponent
      */
     public function createComponent(string $component, array $params = []): Component
     {

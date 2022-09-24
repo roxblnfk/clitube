@@ -21,6 +21,18 @@ You can install the package via composer:
 composer require roxblnfk/clitube
 ```
 
+## Examples
+
+### Paginator
+
+```php
+$core = (new \Roxblnfk\CliTube\Core($output))
+$core->createComponent(\Roxblnfk\CliTube\Component\Paginator::class, [
+    new MyPaginator(), // Instanceof \Roxblnfk\CliTube\Data\Paginator
+])
+$core->run();
+```
+
 ## Testing
 
 ```bash
