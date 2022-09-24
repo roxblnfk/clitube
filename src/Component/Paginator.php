@@ -83,7 +83,7 @@ class Paginator implements InteractiveComponent
             'Enter `<` or `>` to change the current page',
         ];
         if ($this->paginator instanceof OffsetPaginator) {
-            $tips[] = 'Enter `<<` or `>>` to navigate oin the firs or the last page';
+            $tips[] = 'Enter `<<` or `>>` to navigate to the firs or to the last page';
         }
         $this->screen->pageStatusCallable(static fn (): string => \sprintf(
             "\033[90m%s\033[0m",
@@ -100,13 +100,22 @@ class Paginator implements InteractiveComponent
 
     protected function nextPage(?Next $event = null): void
     {
-        $this->paginator = $this->paginator->nextPage();
+        if ($event?->toEnd && $this->paginator instanceof OffsetPaginator) {
+            $limit = $this->paginator->getLimit();
+            $offset = $limit * (\max(1, (int)\ceil($this->paginator->getCount() / $limit)) - 1);
+
+            $this->paginator = $this->paginator->withOffset($offset);
+        } else {
+            $this->paginator = $this->paginator->nextPage();
+        }
         $this->redraw();
     }
 
     protected function previousPage(?Previous $event = null): void
     {
-        $this->paginator = $this->paginator->previousPage();
+        $this->paginator = $event?->toStart && $this->paginator instanceof OffsetPaginator
+            ? $this->paginator->withOffset(0)
+            : $this->paginator->previousPage();
         $this->redraw();
     }
 }

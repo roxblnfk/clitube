@@ -58,24 +58,36 @@ class OffsetPaginator implements PaginatorInterface {
 
     public function withLimit(int $limit): static
     {
-        $this->limit = $limit;
-        $this->calcProperties();
-        return $this;
+        $clone = clone $this;
+        $clone->limit = $limit;
+        $clone->calcProperties();
+        return $clone;
+    }
+
+    public function withOffset(int $offset): static
+    {
+        $clone = clone $this;
+        $page = (int)\ceil($offset / $clone->limit) + 1;
+        \assert($page > 0);
+        $clone->page = $page;
+        $clone->calcProperties();
+        return $clone;
     }
 
     public function nextPage(): static
     {
-        $this->page = \min($this->pages, $this->page + 1);
-        $this->calcProperties();
-        // var_dump((array)$this); die;
-        return $this;
+        $clone = clone $this;
+        $clone->page = \min($clone->pages, $clone->page + 1);
+        $clone->calcProperties();
+        return $clone;
     }
 
     public function previousPage(): static
     {
-        $this->page = \max(1, $this->page - 1);
-        $this->calcProperties();
-        return $this;
+        $clone = clone $this;
+        $clone->page = \max(1, $clone->page - 1);
+        $clone->calcProperties();
+        return $clone;
     }
 
     public function count(): int
@@ -86,13 +98,6 @@ class OffsetPaginator implements PaginatorInterface {
     public function getLimit(): int
     {
         return $this->limit;
-    }
-
-    public function withOffset(int $offset): static
-    {
-        $this->page = \max(1, (int)\ceil($offset / $this->limit));
-        $this->calcProperties();
-        return $this;
     }
 
     public function getOffset(): int

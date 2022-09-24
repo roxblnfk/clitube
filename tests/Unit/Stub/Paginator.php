@@ -52,15 +52,18 @@ class Paginator implements PaginatorInterface {
 
     public function nextPage(): static
     {
-        ++$this->page;
-        return $this;
+        $clone = clone $this;
+        ++$clone->page;
+        return $clone;
     }
 
     public function previousPage(): static
     {
-        --$this->page;
-        return $this;
+        $clone = clone $this;
+        --$clone->page;
+        return $clone;
     }
+
     public function count(): int
     {
         return $this->limit;
