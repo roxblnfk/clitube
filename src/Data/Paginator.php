@@ -10,6 +10,8 @@ use IteratorAggregate;
 /**
  * @psalm-type TLimit = positive-int
  * @template-extends IteratorAggregate<array<array-key, scalar>>
+ *
+ * @method int count() Get current page items count
  */
 interface Paginator extends IteratorAggregate, Countable
 {

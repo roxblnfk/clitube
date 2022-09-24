@@ -8,20 +8,20 @@ use Roxblnfk\CliTube\Command\Support\Stoppable;
 use Roxblnfk\CliTube\Contract\Command\UserCommand;
 
 /**
- * Go to next element
+ * Go to previous element
  */
-final class Next implements UserCommand
+final class Previous implements UserCommand
 {
     use Stoppable;
 
     public function __construct(
-        public readonly bool $toEnd = false,
+        public readonly bool $toStart = false,
     ) { }
 
     public static function createFromInput(string $input): ?UserCommand
     {
-        if (\preg_match('/^>>?$/', $input)) {
-            return new self($input === '>>');
+        if (\preg_match('/^<<?$/', $input)) {
+            return new self($input === '<<');
         }
 
         return null;

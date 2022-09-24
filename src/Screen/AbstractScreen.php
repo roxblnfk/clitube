@@ -75,7 +75,7 @@ class AbstractScreen
         $this->output->write($this->pageStatus, false, OutputInterface::OUTPUT_RAW);
         // Move cursor to Input
         $this->output->write(sprintf("\x1b[%dA", 1));
-        $this->output->write(sprintf("\x1b[%dG", \strlen($this->pageInput) + 1));
+        $this->output->write(sprintf("\x1b[%dG", $this->strlen($this->pageInput) + 1));
     }
 
     public function removeLines(int $lines = 1, bool $cleanInputLine = true): void
@@ -151,7 +151,9 @@ class AbstractScreen
      */
     protected function strlen(string $string): int
     {
-        return \mb_strlen($string);
+        $str = \preg_replace('/\\033\\[\\d{1,2}m/u', '', $string);
+
+        return \mb_strlen($str);
     }
 
     /**

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Roxblnfk\CliTube\Screen;
 
+use Roxblnfk\CliTube\Data\CountablePaginator;
 use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -101,6 +102,14 @@ final class Paginator extends AbstractScreen
 
     protected function renderPaginatorBar(): string
     {
+        $countAll = $this->paginator instanceof CountablePaginator ? $this->paginator->getCount() : null;
+
+        if ($countAll === null) {
+            return "\033[93m<\033[0m \033[32m?\033[0m \033[93m>\033[0m";
+        }
+
+        // Calc pages count and current page number
+
         return '1 2 3';
     }
 }

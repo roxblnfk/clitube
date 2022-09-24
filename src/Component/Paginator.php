@@ -8,13 +8,13 @@ use Closure;
 use Roxblnfk\CliTube\Command\Core\CloseComponent;
 use Roxblnfk\CliTube\Command\User\Next;
 use Roxblnfk\CliTube\Command\User\Noop;
+use Roxblnfk\CliTube\Command\User\Previous;
 use Roxblnfk\CliTube\Command\User\Quit;
 use Roxblnfk\CliTube\Contract\Command\UserCommand;
 use Roxblnfk\CliTube\Contract\InteractiveComponent;
 use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
 use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
 use Roxblnfk\CliTube\Screen\Paginator as PaginatorScreen;
-use Traversable;
 
 class Paginator implements InteractiveComponent
 {
@@ -59,6 +59,7 @@ class Paginator implements InteractiveComponent
         return [
             Quit::class => $this->exit(...),
             Next::class => $this->nextPage(...),
+            Previous::class => $this->previousPage(...),
             Noop::class => $this->screen->showNext(...),
         ];
     }
@@ -79,6 +80,12 @@ class Paginator implements InteractiveComponent
     private function nextPage(?Next $event = null): void
     {
         $this->paginator = $this->paginator->nextPage();
+        $this->redraw();
+    }
+
+    private function previousPage(?Previous $event = null): void
+    {
+        $this->paginator = $this->paginator->previousPage();
         $this->redraw();
     }
 
