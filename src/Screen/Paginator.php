@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Roxblnfk\CliTube\Screen;
 
+use ErrorException;
 use Roxblnfk\CliTube\Data\OffsetPaginator;
 use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
 use Symfony\Component\Console\Helper\Table;
@@ -63,9 +64,15 @@ final class Paginator extends AbstractScreen
      */
     public function pageStatusCallable(?callable $callable): void
     {
-        $this->pageStatusCallable = $callable !== null
-            ? ($callable(...)->bindTo($this) ?: $callable(...)->bindTo(null))
-            : null;
+        try {
+            $this->pageStatusCallable = $callable !== null
+                ? $callable(...)->bindTo($this)
+                : null;
+        } catch (ErrorException) {
+            $this->pageStatusCallable = $callable !== null
+                ? $callable(...)->bindTo(null)
+                : null;
+        }
     }
 
     protected function prepareFrame(): array
