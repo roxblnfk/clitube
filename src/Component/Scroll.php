@@ -12,15 +12,23 @@ use Roxblnfk\CliTube\Contract\Command\UserCommand;
 use Roxblnfk\CliTube\Contract\InteractiveComponent;
 use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
 use Roxblnfk\CliTube\Screen\Leaflet;
+use Stringable;
 
 class Scroll implements InteractiveComponent
 {
+    /**
+     * @param iterable<array-key, string>|string|Stringable $content
+     * @param bool $overwrite If {@see true} then only one screen will be used.
+     *        Each next slide will overwrite the previous one.
+     */
     public function __construct(
         private readonly Leaflet $screen,
         private readonly EventDispatcher $eventDispatcher,
+        iterable|string|Stringable $content,
+        bool $overwrite = true,
     ) {
-        $this->generateText();
-        $this->configureScreen();
+        $this->generateText($content);
+        $this->configureScreen($overwrite);
         $this->redraw();
     }
 
@@ -64,11 +72,18 @@ class Scroll implements InteractiveComponent
         ];
     }
 
-    private function generateText()
+    /**
+     * @param iterable<array-key, string>|string|Stringable $content
+     */
+    private function generateText(iterable|string|Stringable $content): void
     {
-        for ($i = 0; $i < 30; ++$i) {
-            $this->screen->writeln($i . \str_repeat(' Foo Bar Baz', $i));
+        if (\is_iterable($content)) {
+            foreach ($content as $string) {
+                $this->screen->writeln($string);
+            }
+            return;
         }
+        $this->screen->write((string)$content);
     }
 
     private function exit(?Quit $event = null): void
@@ -78,9 +93,9 @@ class Scroll implements InteractiveComponent
         $this->eventDispatcher->dispatch(new CloseComponent(component: $this));
     }
 
-    private function configureScreen()
+    private function configureScreen(bool $overwrite): void
     {
-        // $this->screen->overwrite = false;
+        $this->screen->overwrite = $overwrite;
         $this->screen->pageStatusCallable(fn (Leaflet $screen) =>
             \sprintf(
                 "\033[90m%s\033[0m",
