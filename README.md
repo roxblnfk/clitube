@@ -1,13 +1,17 @@
-<center>
-<img src="logo.svg">
-</center>
+<p align="center">
+<img src="logo.svg" alt="CLI Tube">
+</p>
 
-[![PHP](https://img.shields.io/packagist/php-v/roxblnfk/clitube.svg?style=flat-square)](https://packagist.org/packages/roxblnfk/clitube)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/roxblnfk/clitube.svg?style=flat-square)](https://packagist.org/packages/roxblnfk/clitube)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/roxblnfk/clitube/run-tests?label=tests&style=flat-square)](https://github.com/roxblnfk/clitube/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/roxblnfk/clitube.svg?style=flat-square)](https://packagist.org/packages/roxblnfk/clitube)
+<p align="center">
+<a href="https://packagist.org/packages/roxblnfk/clitube"><img src="https://poser.pugx.org/roxblnfk/clitube/require/php"></a>
+<a href="https://packagist.org/packages/roxblnfk/clitube"><img src="https://poser.pugx.org/roxblnfk/clitube/version"></a>
+<a href="https://packagist.org/packages/roxblnfk/clitube"><img src="https://poser.pugx.org/roxblnfk/clitube/downloads"></a>
+<a href="https://github.com/roxblnfk/clitube/actions"><img src="https://github.com/roxblnfk/clitube/workflows/build/badge.svg"></a>
+<a href="https://shepherd.dev/github/roxblnfk/clitube"><img src="https://shepherd.dev/github/roxblnfk/clitube/coverage.svg"></a>
+<a href="https://shepherd.dev/github/roxblnfk/clitube"><img src="https://shepherd.dev/github/roxblnfk/clitube/level.svg"></a>
+</p>
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+The package will help you to render paginated tables and any plain text content in a console.
 
 ## Requirements
 
