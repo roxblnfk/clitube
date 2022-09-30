@@ -16,7 +16,8 @@ final class Next implements UserCommand
 
     public function __construct(
         public readonly bool $toEnd = false,
-    ) { }
+    ) {
+    }
 
     public static function createFromInput(string $input): ?UserCommand
     {

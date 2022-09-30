@@ -16,7 +16,8 @@ final class Previous implements UserCommand
 
     public function __construct(
         public readonly bool $toStart = false,
-    ) { }
+    ) {
+    }
 
     public static function createFromInput(string $input): ?UserCommand
     {

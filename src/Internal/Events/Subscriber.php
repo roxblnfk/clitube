@@ -46,12 +46,6 @@ final class Subscriber implements EventSubscriber
         }
     }
 
-    /**
-     * Attaches listener to corresponding event based on the type-hint used for the event argument.
-     *
-     * @param callable $listener
-     * @param class-string ...$events
-     */
     public function subscribeCallable(callable $listener, int $mode = self::PREPEND, string ...$events): void
     {
         if ($events === []) {

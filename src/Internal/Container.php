@@ -19,6 +19,7 @@ final class Container implements ContainerInterface
      * @param class-string<T> $id
      * @return T
      * @psalm-return ($id is class-string ? T : mixed)
+     * @psalm-suppress MoreSpecificImplementedParamType
      */
     public function get(string $id)
     {

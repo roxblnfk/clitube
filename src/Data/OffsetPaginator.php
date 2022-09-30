@@ -9,19 +9,19 @@ interface OffsetPaginator extends Paginator
     /**
      * Set page size.
      *
-     * @param positive-int|0 $offset
+     * @param int<0, max> $offset
      *
      * @psalm-immutable
      */
     public function withOffset(int $offset): static;
 
     /**
-     * @return positive-int|0
+     * @return int<0, max>
      */
     public function getOffset(): int;
 
     /**
-     * @return positive-int|0 Count of all items
+     * @return int<0, max> Count of all items
      */
     public function getCount(): int;
 }

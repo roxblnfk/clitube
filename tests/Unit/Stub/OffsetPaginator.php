@@ -8,14 +8,14 @@ use Roxblnfk\CliTube\Data\OffsetPaginator as PaginatorInterface;
 use Traversable;
 
 class OffsetPaginator implements PaginatorInterface {
-    private const ITEMS_COUNT = 12;
+    private const ITEMS_COUNT = 150;
     /** @var positive-int */
     private int $page = 1;
     /** @var positive-int */
     private int $limit = 1;
     /** @var positive-int */
     private int $pages = 1;
-    /** @var positive-int|0 */
+    /** @var int<0, max> */
     private int $offset = 0;
 
     public function __construct()

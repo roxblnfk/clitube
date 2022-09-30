@@ -105,11 +105,17 @@ class AbstractScreen
         // }
     }
 
+    /**
+     * @return positive-int
+     */
     public function getWindowWidth(): int
     {
         return $this->terminal->getWidth();
     }
 
+    /**
+     * @return positive-int
+     */
     public function getWindowHeight(): int
     {
         return $this->terminal->getHeight();
@@ -147,6 +153,8 @@ class AbstractScreen
 
     /**
      * Calc visible symbols ignoring markup.
+     *
+     * @return int<0, max> Count of visible console symbols
      */
     protected function strlen(string $string): int
     {

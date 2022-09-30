@@ -14,12 +14,13 @@ final class Any implements UserCommand
 {
     use Stoppable;
 
-    public string $input;
+    public function __construct(
+        public readonly string $input,
+    ) {
+    }
 
-    public static function createFromInput(string $input): ?UserCommand
+    public static function createFromInput(string $input): UserCommand
     {
-        $self = new self();
-        $self->input = $input;
-        return $self;
+        return new self($input);
     }
 }

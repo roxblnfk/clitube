@@ -10,7 +10,10 @@ final class Leaflet extends AbstractScreen
 {
     public bool $breakLines = true;
 
-    /** @var array{0: int, 1: int, 2: int, 3: int} [Line, Column, end line, end column] in the buffer */
+    /**
+     * @var array{0: int<0, max>, 1: int<0, max>, 2?: int<0, max>, 3?: int<0, max>}
+     *      [Line, Column, end line, end column] in the buffer
+     */
     private array $cursor = [0, 0, 0, 0];
 
     private ?array $frameCache = null;

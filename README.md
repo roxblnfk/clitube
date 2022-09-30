@@ -6,7 +6,7 @@
 <a href="https://packagist.org/packages/roxblnfk/clitube"><img src="https://poser.pugx.org/roxblnfk/clitube/require/php"></a>
 <a href="https://packagist.org/packages/roxblnfk/clitube"><img src="https://poser.pugx.org/roxblnfk/clitube/version"></a>
 <a href="https://packagist.org/packages/roxblnfk/clitube"><img src="https://poser.pugx.org/roxblnfk/clitube/downloads"></a>
-<a href="https://github.com/roxblnfk/clitube/actions"><img src="https://github.com/roxblnfk/clitube/workflows/build/badge.svg"></a>
+<a href="https://github.com/roxblnfk/clitube/actions"><img src="https://github.com/roxblnfk/clitube/workflows/phpunit/badge.svg"></a>
 <a href="https://shepherd.dev/github/roxblnfk/clitube"><img src="https://shepherd.dev/github/roxblnfk/clitube/coverage.svg"></a>
 <a href="https://shepherd.dev/github/roxblnfk/clitube"><img src="https://shepherd.dev/github/roxblnfk/clitube/level.svg"></a>
 </p>
