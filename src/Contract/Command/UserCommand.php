@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Contract\Command;
+namespace CliTube\Contract\Command;
 
 use Psr\EventDispatcher\StoppableEventInterface;
 

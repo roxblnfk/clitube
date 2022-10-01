@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Screen;
+namespace CliTube\Screen;
 
 use ErrorException;
-use Roxblnfk\CliTube\Data\OffsetPaginator;
-use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
+use CliTube\Data\OffsetPaginator;
+use CliTube\Data\Paginator as PaginatorInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
 

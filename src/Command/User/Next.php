@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Command\User;
+namespace CliTube\Command\User;
 
-use Roxblnfk\CliTube\Command\Support\Stoppable;
-use Roxblnfk\CliTube\Contract\Command\UserCommand;
+use CliTube\Command\Support\Stoppable;
+use CliTube\Contract\Command\UserCommand;
 
 /**
  * Go to next element

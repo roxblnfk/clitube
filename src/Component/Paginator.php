@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Component;
+namespace CliTube\Component;
 
 use Closure;
-use Roxblnfk\CliTube\Command\Core\CloseComponent;
-use Roxblnfk\CliTube\Command\User\Next;
-use Roxblnfk\CliTube\Command\User\Noop;
-use Roxblnfk\CliTube\Command\User\Previous;
-use Roxblnfk\CliTube\Command\User\Quit;
-use Roxblnfk\CliTube\Contract\Command\UserCommand;
-use Roxblnfk\CliTube\Contract\InteractiveComponent;
-use Roxblnfk\CliTube\Data\OffsetPaginator;
-use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
-use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
-use Roxblnfk\CliTube\Screen\Paginator as PaginatorScreen;
+use CliTube\Command\Core\CloseComponent;
+use CliTube\Command\User\Next;
+use CliTube\Command\User\Noop;
+use CliTube\Command\User\Previous;
+use CliTube\Command\User\Quit;
+use CliTube\Contract\Command\UserCommand;
+use CliTube\Contract\InteractiveComponent;
+use CliTube\Data\OffsetPaginator;
+use CliTube\Data\Paginator as PaginatorInterface;
+use CliTube\Internal\Events\EventDispatcher;
+use CliTube\Screen\Paginator as PaginatorScreen;
 
 class Paginator implements InteractiveComponent
 {

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Tests\Unit\Stub;
+namespace CliTube\Tests\Unit\Stub;
 
-use Roxblnfk\CliTube\Data\Paginator as PaginatorInterface;
+use CliTube\Data\Paginator as PaginatorInterface;
 use Traversable;
 
 class Paginator implements PaginatorInterface {

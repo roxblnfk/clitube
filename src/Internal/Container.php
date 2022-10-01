@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Internal;
+namespace CliTube\Internal;
 
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;

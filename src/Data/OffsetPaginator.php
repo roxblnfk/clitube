@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Data;
+namespace CliTube\Data;
 
 interface OffsetPaginator extends Paginator
 {

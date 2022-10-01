@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Contract;
+namespace CliTube\Contract;
 
 interface EventSubscriber
 {

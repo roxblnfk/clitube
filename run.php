@@ -8,11 +8,11 @@ use Symfony\Component\Console\SingleCommandApplication;
 
 (new SingleCommandApplication())
     ->setCode(function (InputInterface $input, OutputInterface $output) {
-        $core = (new \Roxblnfk\CliTube\Core($output));
-        // $core->createComponent(\Roxblnfk\CliTube\Component\Scroll::class, ['content' => '123', 'overwrite' => false]);
-        $core->createComponent(\Roxblnfk\CliTube\Component\Paginator::class, [
-            // new \Roxblnfk\CliTube\Tests\Unit\Stub\Paginator(),
-            new \Roxblnfk\CliTube\Tests\Unit\Stub\OffsetPaginator(),
+        $core = (new \CliTube\Core($output));
+        // $core->createComponent(\CliTube\Component\Scroll::class, ['content' => '123', 'overwrite' => false]);
+        $core->createComponent(\CliTube\Component\Paginator::class, [
+            // new \CliTube\Tests\Unit\Stub\Paginator(),
+            new \CliTube\Tests\Unit\Stub\OffsetPaginator(),
         ]);
         $core->run();
     })

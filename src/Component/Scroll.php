@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Component;
+namespace CliTube\Component;
 
 use Closure;
-use Roxblnfk\CliTube\Command\Core\CloseComponent;
-use Roxblnfk\CliTube\Command\User\Noop;
-use Roxblnfk\CliTube\Command\User\Quit;
-use Roxblnfk\CliTube\Contract\Command\UserCommand;
-use Roxblnfk\CliTube\Contract\InteractiveComponent;
-use Roxblnfk\CliTube\Internal\Events\EventDispatcher;
-use Roxblnfk\CliTube\Screen\Leaflet;
+use CliTube\Command\Core\CloseComponent;
+use CliTube\Command\User\Noop;
+use CliTube\Command\User\Quit;
+use CliTube\Contract\Command\UserCommand;
+use CliTube\Contract\InteractiveComponent;
+use CliTube\Internal\Events\EventDispatcher;
+use CliTube\Screen\Leaflet;
 use Stringable;
 
 class Scroll implements InteractiveComponent

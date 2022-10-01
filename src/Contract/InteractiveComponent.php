@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Contract;
+namespace CliTube\Contract;
 
-use Roxblnfk\CliTube\Contract\Command\UserCommand;
+use CliTube\Contract\Command\UserCommand;
 
 /**
  * Means the component can interact with user using input commands.

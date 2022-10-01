@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Internal\Events;
+namespace CliTube\Internal\Events;
 
 use Closure;
 use ReflectionClass;
@@ -10,10 +10,10 @@ use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 use ReflectionUnionType;
-use Roxblnfk\CliTube\Command\Core\CloseComponent;
-use Roxblnfk\CliTube\Contract\EventListener;
-use Roxblnfk\CliTube\Contract\Component;
-use Roxblnfk\CliTube\Contract\EventSubscriber;
+use CliTube\Command\Core\CloseComponent;
+use CliTube\Contract\EventListener;
+use CliTube\Contract\Component;
+use CliTube\Contract\EventSubscriber;
 use SplObjectStorage;
 
 final class Subscriber implements EventSubscriber

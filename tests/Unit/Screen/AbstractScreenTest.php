@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Tests\Unit\Screen;
+namespace CliTube\Tests\Unit\Screen;
 
 use PHPUnit\Framework\TestCase;
-use Roxblnfk\CliTube\Tests\Unit\Stub\Screen;
+use CliTube\Tests\Unit\Stub\Screen;
 
 class AbstractScreenTest extends TestCase
 {

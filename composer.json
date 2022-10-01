@@ -1,12 +1,11 @@
 {
-    "name": "roxblnfk/clitube",
+    "name": "clitube/clitube",
     "description": "CliTube is data viewer in console",
     "keywords": [
-        "roxblnfk",
         "spiral",
         "clitube"
     ],
-    "homepage": "https://github.com/roxblnfk/clitube",
+    "homepage": "https://github.com/clitube/clitube",
     "license": "MIT",
     "authors": [
         {
@@ -28,12 +27,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Roxblnfk\\CliTube\\": "src"
+            "CliTube\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Roxblnfk\\CliTube\\Tests\\": "tests"
+            "CliTube\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -46,7 +45,7 @@
     "extra": {
         "spiral": {
             "bootloaders": [
-                "Roxblnfk\\CliTube\\Bootloader\\CliTubeBootloader"
+                "CliTube\\Bootloader\\CliTubeBootloader"
             ]
         }
     },

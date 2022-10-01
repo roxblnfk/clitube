@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Tests\Unit\Stub;
+namespace CliTube\Tests\Unit\Stub;
 
-use Roxblnfk\CliTube\Screen\AbstractScreen;
+use CliTube\Screen\AbstractScreen;
 use Symfony\Component\Console\Output\NullOutput;
 
 class Screen extends AbstractScreen

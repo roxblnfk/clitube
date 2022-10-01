@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Internal;
+namespace CliTube\Internal;
 
-use Roxblnfk\CliTube\Command\User\Any;
-use Roxblnfk\CliTube\Contract\Command\UserCommand;
+use CliTube\Command\User\Any;
+use CliTube\Contract\Command\UserCommand;
 
 final class UserCommandFactory
 {

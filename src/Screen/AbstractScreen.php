@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Roxblnfk\CliTube\Screen;
+namespace CliTube\Screen;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
