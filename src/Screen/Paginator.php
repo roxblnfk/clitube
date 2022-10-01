@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace CliTube\Screen;
 
+use CliTube\Contract\Pagination\OffsetPaginator;
+use CliTube\Contract\Pagination\Paginator as PaginatorInterface;
 use ErrorException;
-use CliTube\Data\OffsetPaginator;
-use CliTube\Data\Paginator as PaginatorInterface;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
 

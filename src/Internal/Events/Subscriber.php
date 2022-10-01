@@ -4,16 +4,14 @@ declare(strict_types=1);
 
 namespace CliTube\Internal\Events;
 
+use CliTube\Contract\Component;
+use CliTube\Contract\Event\EventListener;
+use CliTube\Contract\Event\EventSubscriber;
 use Closure;
-use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 use ReflectionUnionType;
-use CliTube\Command\Core\CloseComponent;
-use CliTube\Contract\EventListener;
-use CliTube\Contract\Component;
-use CliTube\Contract\EventSubscriber;
 use SplObjectStorage;
 
 final class Subscriber implements EventSubscriber

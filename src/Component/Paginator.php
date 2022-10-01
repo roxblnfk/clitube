@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace CliTube\Component;
 
-use Closure;
 use CliTube\Command\Core\CloseComponent;
 use CliTube\Command\User\Next;
 use CliTube\Command\User\Noop;
 use CliTube\Command\User\Previous;
 use CliTube\Command\User\Quit;
 use CliTube\Contract\Command\UserCommand;
+use CliTube\Contract\Pagination\OffsetPaginator;
+use CliTube\Contract\Pagination\Paginator as PaginatorInterface;
 use CliTube\Contract\InteractiveComponent;
-use CliTube\Data\OffsetPaginator;
-use CliTube\Data\Paginator as PaginatorInterface;
 use CliTube\Internal\Events\EventDispatcher;
 use CliTube\Screen\Paginator as PaginatorScreen;
+use Closure;
 
 class Paginator implements InteractiveComponent
 {

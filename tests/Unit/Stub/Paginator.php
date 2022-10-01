@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CliTube\Tests\Unit\Stub;
 
-use CliTube\Data\Paginator as PaginatorInterface;
+use CliTube\Contract\Pagination\Paginator as PaginatorInterface;
 use Traversable;
 
 class Paginator implements PaginatorInterface {

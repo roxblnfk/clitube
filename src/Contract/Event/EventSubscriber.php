@@ -2,7 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CliTube\Contract;
+namespace CliTube\Contract\Event;
+
+use CliTube\Contract\Component;
 
 interface EventSubscriber
 {

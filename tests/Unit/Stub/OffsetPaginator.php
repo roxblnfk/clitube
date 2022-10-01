@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CliTube\Tests\Unit\Stub;
 
-use CliTube\Data\OffsetPaginator as PaginatorInterface;
+use CliTube\Contract\Pagination\OffsetPaginator as PaginatorInterface;
 use Traversable;
 
 class OffsetPaginator implements PaginatorInterface {

@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace CliTube\Contract;
+namespace CliTube\Contract\Event;
 
-use Generator;
-use CliTube\Contract\Command\Command;
+use CliTube\Contract\Component;
 
 interface EventListener extends Component
 {

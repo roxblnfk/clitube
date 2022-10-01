@@ -4,14 +4,11 @@ declare(strict_types=1);
 
 namespace CliTube;
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-use Psr\EventDispatcher\ListenerProviderInterface;
 use CliTube\Command\Core\CloseComponent;
-use CliTube\Command\User\Noop;
 use CliTube\Command\User\Quit;
-use CliTube\Contract\EventListener;
 use CliTube\Contract\Component;
-use CliTube\Contract\EventSubscriber;
+use CliTube\Contract\Event\EventListener;
+use CliTube\Contract\Event\EventSubscriber;
 use CliTube\Contract\InteractiveComponent;
 use CliTube\Internal\Container;
 use CliTube\Internal\Events\EventDispatcher;
@@ -19,6 +16,8 @@ use CliTube\Internal\Events\ListenerProvider;
 use CliTube\Internal\Events\Subscriber;
 use CliTube\Internal\UserCommandFactory;
 use CliTube\Screen\Paginator;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use Psr\EventDispatcher\ListenerProviderInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class Core implements EventListener
