@@ -16,12 +16,16 @@ interface OffsetPaginator extends Paginator
     public function withOffset(int $offset): static;
 
     /**
+     * The method won't be called before {@see withOffset()}.
+     *
      * @return int<0, max>
      */
     public function getOffset(): int;
 
     /**
-     * @return int<0, max> Count of all items
+     * Count of all items
+     *
+     * @return int<0, max>|null
      */
-    public function getCount(): int;
+    public function getCount(): ?int;
 }

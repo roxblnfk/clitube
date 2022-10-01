@@ -25,7 +25,7 @@ interface Paginator extends IteratorAggregate, Countable
     public function withLimit(int $limit): static;
 
     /**
-     * Get page size.
+     * Get page size. The method won't be called before {@see withLimit()}.
      *
      * @return TLimit
      */
