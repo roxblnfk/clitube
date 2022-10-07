@@ -8,6 +8,9 @@ use Psr\EventDispatcher\EventDispatcherInterface;
 use Psr\EventDispatcher\ListenerProviderInterface;
 use Psr\EventDispatcher\StoppableEventInterface;
 
+/**
+ * @internal
+ */
 final class EventDispatcher implements EventDispatcherInterface
 {
     public function __construct(

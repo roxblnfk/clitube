@@ -10,11 +10,11 @@ use CliTube\Command\User\Noop;
 use CliTube\Command\User\Previous;
 use CliTube\Command\User\Quit;
 use CliTube\Contract\Command\UserCommand;
+use CliTube\Contract\InteractiveComponent;
 use CliTube\Contract\Pagination\OffsetPaginator;
 use CliTube\Contract\Pagination\Paginator as PaginatorInterface;
-use CliTube\Contract\InteractiveComponent;
 use CliTube\Internal\Events\EventDispatcher;
-use CliTube\Screen\Paginator as PaginatorScreen;
+use CliTube\Internal\Screen\Paginator as PaginatorScreen;
 use Closure;
 
 class Paginator implements InteractiveComponent

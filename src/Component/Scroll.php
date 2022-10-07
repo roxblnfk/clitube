@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace CliTube\Component;
 
-use Closure;
 use CliTube\Command\Core\CloseComponent;
 use CliTube\Command\User\Noop;
 use CliTube\Command\User\Quit;
 use CliTube\Contract\Command\UserCommand;
 use CliTube\Contract\InteractiveComponent;
 use CliTube\Internal\Events\EventDispatcher;
-use CliTube\Screen\Leaflet;
+use CliTube\Internal\Screen\Leaflet;
+use Closure;
 use Stringable;
 
 class Scroll implements InteractiveComponent

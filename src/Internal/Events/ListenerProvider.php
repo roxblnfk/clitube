@@ -6,6 +6,9 @@ namespace CliTube\Internal\Events;
 
 use Psr\EventDispatcher\ListenerProviderInterface;
 
+/**
+ * @internal
+ */
 final class ListenerProvider implements ListenerProviderInterface
 {
     public function __construct(

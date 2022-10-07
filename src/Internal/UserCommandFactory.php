@@ -7,6 +7,9 @@ namespace CliTube\Internal;
 use CliTube\Command\User\Any;
 use CliTube\Contract\Command\UserCommand;
 
+/**
+ * @internal
+ */
 final class UserCommandFactory
 {
     /**

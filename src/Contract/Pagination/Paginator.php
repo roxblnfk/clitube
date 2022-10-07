@@ -9,7 +9,8 @@ use IteratorAggregate;
 
 /**
  * @psalm-type TLimit = positive-int
- * @template-extends IteratorAggregate<array<array-key, scalar>>
+ * @psalm-type TItem = array<array-key, scalar>
+ * @template-extends IteratorAggregate<TItem>
  *
  * @method int count() Get current page items count
  */

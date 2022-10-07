@@ -14,6 +14,9 @@ use ReflectionNamedType;
 use ReflectionUnionType;
 use SplObjectStorage;
 
+/**
+ * @internal
+ */
 final class Subscriber implements EventSubscriber
 {
     /**

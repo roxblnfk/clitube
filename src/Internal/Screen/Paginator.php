@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace CliTube\Screen;
+namespace CliTube\Internal\Screen;
 
 use CliTube\Contract\Pagination\OffsetPaginator;
 use CliTube\Contract\Pagination\Paginator as PaginatorInterface;
@@ -10,6 +10,9 @@ use ErrorException;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Output\BufferedOutput;
 
+/**
+ * @internal
+ */
 final class Paginator extends AbstractScreen
 {
     /** @var null|array<int, string> */

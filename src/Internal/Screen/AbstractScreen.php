@@ -2,11 +2,14 @@
 
 declare(strict_types=1);
 
-namespace CliTube\Screen;
+namespace CliTube\Internal\Screen;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
 
+/**
+ * @internal
+ */
 class AbstractScreen
 {
     /**

@@ -2,10 +2,13 @@
 
 declare(strict_types=1);
 
-namespace CliTube\Screen;
+namespace CliTube\Internal\Screen;
 
 use Symfony\Component\Console\Output\OutputInterface;
 
+/**
+ * @internal
+ */
 final class Leaflet extends AbstractScreen
 {
     public bool $breakLines = true;

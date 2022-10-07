@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CliTube\Tests\Unit\Stub;
 
-use CliTube\Screen\AbstractScreen;
+use CliTube\Internal\Screen\AbstractScreen;
 use Symfony\Component\Console\Output\NullOutput;
 
 class Screen extends AbstractScreen

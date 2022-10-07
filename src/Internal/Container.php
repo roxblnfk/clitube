@@ -10,6 +10,9 @@ use RuntimeException;
 use Yiisoft\Injector\ArgumentException;
 use Yiisoft\Injector\Injector;
 
+/**
+ * @internal
+ */
 final class Container implements ContainerInterface
 {
     private array $values = [];
