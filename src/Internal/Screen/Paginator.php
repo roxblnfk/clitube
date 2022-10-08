@@ -73,7 +73,7 @@ final class Paginator extends AbstractScreen
     {
         try {
             $this->pageStatusCallable = $callable !== null
-                ? ($callable(...)->bindTo($this) ?: $callable(...)->bindTo(null))
+                ? @($callable(...)->bindTo($this) ?: $callable(...)->bindTo(null))
                 : null;
         } catch (ErrorException) {
             $this->pageStatusCallable = $callable !== null
