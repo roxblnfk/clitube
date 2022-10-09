@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace CliTube\Internal\Screen;
 
+use Exception;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Terminal;
 
@@ -161,7 +162,7 @@ class AbstractScreen
      */
     protected function strlen(string $string): int
     {
-        $str = \preg_replace('/\\033\\[\\d{1,2}m/u', '', $string);
+        $str = \preg_replace('/\\033\\[\\d{1,3}(?:;\\d{1,3})*m/u', '', $string);
 
         return \mb_strlen($str);
     }
@@ -170,8 +171,76 @@ class AbstractScreen
      * Cut visible symbols with markup.
      * todo
      */
-    protected function substr(string $string, int $start, int $length = null): string
+    protected function substr(string $string, int $start, int $length = null, bool $markup = false): string
     {
-        return \mb_substr($string, $start, $length);
+        \preg_match_all(
+            '/\\033\\[(\\d{1,2}(?:;\\d{1,3})*)m/u',
+            $string,
+            $matches,
+            PREG_OFFSET_CAPTURE | PREG_UNMATCHED_AS_NULL,
+        );
+
+        /**
+         * @var array{non-empty-string, int<0, max>} $markers
+         * @var array{non-empty-string, int<0, max>} $codes
+         */
+        [$markers, $codes] = $matches;
+        /** @var array<int<0, max>, int> $markersPos */
+        $markersPos = [];
+        foreach ($markers as $key => [$marker, $position]) {
+            $markersPos[$position] = $key;
+        }
+
+
+        /** Count of readable symbols */
+        $strReadables = $this->strlen($string);
+        $strLength = \mb_strlen($string);
+        // Calc limitations
+        $start = \max(0, $start < 0 ? $strReadables + $start : $start);
+        $end = match (true) {
+            $length === null => $strReadables,
+            $length < 0 => \max($start, $strReadables + $length),
+            default => \min($strReadables, $start + $length),
+        };
+        if ($start >= $strReadables || $start === $end) {
+            return '';
+        }
+
+        $offset = 0;
+        $offsetSym = 0;
+        // Markup-less symbols caret
+        $caret = 0;
+        $result = '';
+        // $
+
+        do {
+            if (\array_key_exists($offset, $markersPos)) {
+                $marker = $markers[$markersPos[$offset]];
+                $offset += \strlen($marker[0]);
+                $offsetSym += \mb_strlen($marker[0]);
+                // todo: parse codes and store state
+                continue;
+            }
+            // Get symbol
+            $symbol = $markup ? \mb_substr($string, $offsetSym, 1) : \substr($string, $offset, 1);
+            if ($symbol === '') {
+                var_dump($result);
+                throw new Exception('??');
+                break;
+            }
+            ++$offsetSym;
+            $offset += \strlen($symbol);
+            // In range
+            if ($caret >= $start) {
+                $result .= $symbol;
+            }
+            ++$caret;
+        } while ($caret < $end);
+
+
+        // \var_dump($matches);
+        // \var_dump($result);
+        // die;
+        return $result;
     }
 }
