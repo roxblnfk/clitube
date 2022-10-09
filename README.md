@@ -41,11 +41,11 @@ $core->run();
 
 #### Navigation
 
-![paginator navigation](media/pagination-navigation.gif)
+<img src="media/pagination-navigation.gif" width="50%">
 
 #### A wide table scrolling
 
-![paginator scrolling](media/pagination-scroll-horizontally.gif)
+<img src="media/pagination-scroll-horizontally.gif" width="50%">
 
 ### Scroll Component
 
