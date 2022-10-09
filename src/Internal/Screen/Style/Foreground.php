@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace CliTube\Internal\Screen\Style;
 
-enum Foreground: int implements Style
+enum Foreground: int implements StyleStuff
 {
     case Black = 30;
     case Red = 31;
@@ -16,5 +16,5 @@ enum Foreground: int implements Style
     case White = 37;
     case Default = 39;
 
-    use ColorTrait;
+    use StyleTrait;
 }

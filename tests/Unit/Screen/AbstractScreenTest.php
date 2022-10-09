@@ -32,6 +32,38 @@ class AbstractScreenTest extends TestCase
         $this->assertSame($expectedLength, $screen->strlen($string));
     }
 
+    public function colorStringSubstrProvider(): iterable
+    {
+        $simpleString = 'Foo bar baz fiz kez dez';
+        $colorString = $this->wrap('Yellow', 33);
+        $colorString2 = $this->wrap('Green ' . $this->wrap('Yellow', 33) . ' back', 42);
+        $colorString3 = Background::Green->string(Foreground::Black, Effect::Bold) . 'foo' . Effect::Reset->string();
+        return [
+            // Without markup
+            [$simpleString, 0, null, $simpleString],
+            [$simpleString, 0, 99, $simpleString],
+            [$simpleString, 0, -1, \substr($simpleString, 0, -1)],
+            // With markup
+            [$colorString, 0, 6, $colorString],
+            [$colorString, 0, PHP_INT_MAX, $colorString],
+            [$colorString, 0, 1, $this->wrap('Y', 33)],
+            [$colorString, 2, 2, $this->wrap('ll', 33)],
+            [$colorString, 3, null, $this->wrap('low', 33)],
+            [$colorString, 3, -1, $this->wrap('lo', 33)],
+            [$colorString3, -1, null, Background::Green->string(Foreground::Black, Effect::Bold) . 'o' . Effect::Reset->string()],
+            // todo unicode
+        ];
+    }
+
+    /**
+     * @dataProvider colorStringSubstrProvider
+     */
+    public function testSubstrWithStyles(string $string, int $start, ?int $length, string $expected): void
+    {
+        $screen = new Screen();
+        $this->assertSame($expected, $screen->substr($string, $start, $length, true));
+    }
+
     public function stringSubstrProvider(): iterable
     {
         $simpleString = 'Foo bar baz fiz kez dez';

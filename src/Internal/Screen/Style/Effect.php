@@ -4,8 +4,9 @@ declare(strict_types=1);
 
 namespace CliTube\Internal\Screen\Style;
 
-enum Effect: int implements Style
+enum Effect: int implements StyleStuff
 {
+    /** @see Style::STYLE_RESET_VALUE */
     case Reset = 0;
     case Bold = 1;
     case Faint = 2;
@@ -14,5 +15,5 @@ enum Effect: int implements Style
     case Underline = 5;
     case Blink = 6;
 
-    use ColorTrait;
+    use StyleTrait;
 }

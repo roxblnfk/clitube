@@ -19,7 +19,7 @@ class Screen extends AbstractScreen
 
     public function substr(string $string, int $start, int $length = null, bool $markup = false): string
     {
-        return parent::substr($string, $start, $length);
+        return parent::substr($string, $start, $length, $markup);
     }
 
     public function strlen(string $string): int

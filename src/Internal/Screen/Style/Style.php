@@ -4,12 +4,33 @@ declare(strict_types=1);
 
 namespace CliTube\Internal\Screen\Style;
 
-use BackedEnum;
-
-/**
- * @link https://chrisyeh96.github.io/2020/03/28/terminal-colors.html
- * @link http://jafrog.com/2013/11/23/colors-in-terminal.html
- */
-interface Style extends BackedEnum
+class Style
 {
+    public const STYLE_RESET_VALUE = 0;
+
+    public static function tryFrom(int $code): ?StyleStuff
+    {
+        return Effect::tryFrom($code) ?? Foreground::tryFrom($code) ?? Background::tryFrom($code);
+    }
+
+    /**
+     * @param int|string ...$codes Can be string of int separated with `;`
+     *
+     * @return array<int, StyleStuff>
+     */
+    public static function tryFromMultiple(int|string ...$codes): array
+    {
+        $result = [];
+        foreach (
+            \array_merge(
+                ...\array_map(static fn(int|string $set): array => \explode(';', (string)$set), $codes),
+            ) as $value
+        ) {
+            $stuff = static::tryFrom((int)$value);
+            if ($stuff !== null) {
+                $result[] = $stuff;
+            }
+        }
+        return $result;
+    }
 }
