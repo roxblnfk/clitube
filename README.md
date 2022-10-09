@@ -1,5 +1,5 @@
 <p align="center">
-<img src="logo.svg" alt="CLI Tube">
+<img src="media/logo.svg" alt="CLI Tube">
 </p>
 
 <p align="center">
@@ -38,6 +38,14 @@ $core->createComponent(\CliTube\Component\Paginator::class, [
 ])
 $core->run();
 ```
+
+#### Navigation
+
+![paginator navigation](media/pagination-navigation.gif)
+
+#### A wide table scrolling
+
+![paginator scrolling](media/pagination-scroll-horizontally.gif)
 
 ### Scroll Component
 
